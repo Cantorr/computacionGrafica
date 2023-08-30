@@ -37,6 +37,11 @@ function startScene() {
     //GRID HELPER
     const gridHelper = new THREE.GridHelper(size, divisions);
     scene.add(gridHelper);
+    //LIGHTS
+
+    CreateLight("PointLight");
+    //CreateLight("Ambient");
+    //CreateLight("SpotLight");
 
     //Animation
     animate();
@@ -76,17 +81,17 @@ function startScene() {
 
 //FUNCTION ANIMATE
 function animate() {
-    renderer.createObjects(answer)
+    // renderer.createObjects(answer);
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
 
-    for (let i = 0; i < figura.length; i++) {
+    // for (let i = 0; i < figura.length; i++) {
 
-        shapes[i].rotation.x += 0.01;
-        shapes[i].rotation.z -= 0.01;
+    //     shapes[i].rotation.x += 0.01;
+    //     shapes[i].rotation.z -= 0.01;
 
-    }
+    // }
 
 
 
@@ -134,8 +139,19 @@ function createObjects(answer) {
 }
 function AnimateCube() {
     requestAnimationFrame(AnimateCube);
+    const texture = new THREE.TextureLoader().load('../image/animales/face1.jpg' ); 
+
+    var MaterialCube=[new THREE,MeshBasicMaterial ({map:texture})
+
+    
+    
+    ];
+const material = new THREE.MeshBasicMaterial( { map:texture } );
+
+
     geometry = new THREE.BoxGeometry(10, 10, 10);
     material = new THREE.MeshStandardMaterial({
+        map: texture,
         color: 0xF5F8FA,
         wireframe: false,
         color: 0xFAF7F7,
@@ -162,7 +178,7 @@ function AnimateCube() {
 function AnimateCone() {
     requestAnimationFrame(AnimateCone);
     const geometrycone = new THREE.ConeGeometry(5, 20, 32);
-    const materialcone = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: true });
+    const materialcone = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: false });
     cone = new THREE.Mesh(geometrycone, materialcone);
     scene.add(cone);
     cone.position.x = (Math.random() - 0.4) * size;
@@ -178,7 +194,7 @@ function AnimateCone() {
 function AnimateTorus() {
     requestAnimationFrame(AnimateTorus);
     const geometrytorus = new THREE.TorusGeometry(5.757, 1.2375, 22, 33, 6.283185307179586);
-    const materialtorus = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: true });
+    const materialtorus = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: false});
     torus = new THREE.Mesh(geometrytorus, materialtorus);
     scene.add(torus);
     torus.position.x = (Math.random() - 0.4) * size;
@@ -190,17 +206,18 @@ function AnimateTorus() {
     torus.rotation.y -= 0.02;
 }
 
-function CreateLight (){
+function CreateLight (typeLight){
 
     switch (typeLight) { 
         case "Ambient":
-            const Ambienlight = new THREE.AmbientLight( 0x404040 ); // soft white light
-            scene.add( AmbientLightlight );
+            const AmbientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
+            scene.add( AmbientLight );
          break;
-        case "Point Light":
+         
+        case "PointLight":
              // Create Point Light
-         const Pointlight = new THREE.PointLight(0xff0000, 5, 100);
-         light.position.set(10, 10, 10);
+         const Pointlight = new THREE.PointLight(0xfffff, 10, 100);
+         Pointlight.position.set(10, 10, 10);
          scene.add(Pointlight);
          break;
         
@@ -223,7 +240,7 @@ function CreateLight (){
             scene.add( spotLight );
          break;
         default:
-         // Default secuencia de sentencias.
+
       }
 
 
