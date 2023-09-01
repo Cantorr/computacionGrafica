@@ -1,3 +1,13 @@
+/*
+
+Author@: Miguel Angel Cantor Rodriguez
+Last date of creation : 21/08/2023 4:11 pm
+Last Modification : 1/09/2023 6:30 pm
+Hola
+
+
+*/
+
 var scene = null,
     camera = null,
     renderer = null,
@@ -24,10 +34,7 @@ function startScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-
-
     //------------------------ORBIT CONTROLS----------------------------------
-
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     camera.position.set(20, 20, 20);
     camera.position.z = 20;
@@ -35,10 +42,10 @@ function startScene() {
     //GRID HELPER
     const gridHelper = new THREE.GridHelper(size, divisions);
     scene.add(gridHelper);
-    //LIGHTS
 
+    //LIGHTS
     CreateLight("PointLight");
-    //CreateLight("Ambient");
+    CreateLight("Ambient");
     //CreateLight("SpotLight");
 
     //Animation
@@ -59,14 +66,12 @@ function animate() {
         torus.rotation.x -= 0.02;
         torus.rotation.y -= 0.02;
     }
-
     // for 
     // for 
     // for (let i = 0; i < figura.length; i++) {
 
     //     shapes[i].rotation.x += 0.01;
     //     shapes[i].rotation.z -= 0.01;
-
     // }
 }
 
@@ -111,38 +116,35 @@ function createObjects(objectType) {
 
 }
 function createCube() {
-    //const texture = new THREE.TextureLoader().load('../image/animales/face1.jpg');
+    //const texture = new THREE.TextureLoader().load('../image/animales/face1.jpg'); //añadirle una imagen al cubo como su textura
 
     //var MaterialCube = [new THREE, MeshBasicMaterial({ map: texture })
-
-
-
     //];
     //const material = new THREE.MeshBasicMaterial({ map: texture });
-
-
-    geometrycube = new THREE.BoxGeometry(10, 10, 10);
-    const materialcube = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: true }); //linea temporal para la "textura" del objeto, eliminala cunado aprendas a definir el material del objeto
-
-    //material = new THREE.MeshStandardMaterial({
-    //    map: texture,
-    //  color: 0xF5F8FA,
-    // wireframe: false,
-    //color: 0xFAF7F7,
-    //transparent: false,
-    //opacity: 1
-    //});
-
-
-    cube = new THREE.Mesh(geometrycube, materialcube);
-    scene.add(cube);
+    geometrycube = new THREE.BoxGeometry(10, 10, 10); //Dimensiones del cubo
+    materialcube = new THREE.MeshStandardMaterial({
+        color: 0xF5F8FA,
+        wireframe: false,
+        color: 0xFAF7F7,
+        transparent: false,
+        opacity: 1
+    });
+    cube = new THREE.Mesh(geometrycube, materialcube); //Creador del objeto, ingresa los nombres de las variables con la info (dimensiones,material)
+    scene.add(cube); //añadir lo creado
     cube.position.x += (Math.random() - 0.4) * size;
     cube.position.z += (Math.random() - 0.4) * size;
 }
 
 function createCone() {
-    const geometrycone = new THREE.ConeGeometry(5, 20, 32);
-    const materialcone = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: true });
+    geometrycone = new THREE.ConeGeometry(5, 20, 32);
+    materialcone = new THREE.MeshStandardMaterial({
+        color: 0xF5F8FA,
+        wireframe: false,
+        color: 0xFAF7F7,
+        transparent: false,
+        opacity: 1
+    });
+
     cone = new THREE.Mesh(geometrycone, materialcone);
     scene.add(cone);
     cone.position.x = (Math.random() - 0.4) * size;
@@ -150,8 +152,15 @@ function createCone() {
 }
 
 function createTorus() {
-    const geometrytorus = new THREE.TorusGeometry(5.757, 1.2375, 22, 33, 6.283185307179586);
-    const materialtorus = new THREE.MeshBasicMaterial({ color: 0xF5F8FA, wireframe: true });
+    geometrytorus = new THREE.TorusGeometry(5.757, 1.2375, 22, 33, 6.283185307179586);
+    materialtorus = new THREE.MeshStandardMaterial({
+        color: 0xF5F8FA,
+        wireframe: false,
+        color: 0xFAF7F7,
+        transparent: false,
+        opacity: 1
+    });
+
     torus = new THREE.Mesh(geometrytorus, materialtorus);
     scene.add(torus);
     torus.position.x = (Math.random() - 0.4) * size;
