@@ -44,7 +44,7 @@ function startScene() {
     scene.add(gridHelper);
 
     //LIGHTS
-    CreateLight("PointLight");
+    // CreateLight("PointLight");
     CreateLight("Ambient");
     //CreateLight("SpotLight");
 
@@ -116,20 +116,27 @@ function createObjects(objectType) {
 
 }
 function createCube() {
-    //const texture = new THREE.TextureLoader().load('../image/animales/face1.jpg'); //añadirle una imagen al cubo como su textura
+    const texture = new THREE.TextureLoader().load('../image/animales/face1.jpg'); //añadirle una imagen al cubo como su textura
 
-    //var MaterialCube = [new THREE, MeshBasicMaterial({ map: texture })
-    //];
-    //const material = new THREE.MeshBasicMaterial({ map: texture });
-    geometrycube = new THREE.BoxGeometry(10, 10, 10); //Dimensiones del cubo
-    materialcube = new THREE.MeshStandardMaterial({
-        color: 0xF5F8FA,
+    var materialCubeFaces = [new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face1.jpg')}),
+                            new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face2.png')}),
+                            new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face3.jpg')}),
+                            new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face4.jpg')}),
+                            new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face5.png')}),
+                            new THREE.MeshBasicMaterial ({map:new THREE.TextureLoader().load('../image/animales/face6.jpg')})];
+
+    geometrycube = new THREE.BoxGeometry(80, 80, 80); //Dimensiones del cubo
+    var materialcube = new THREE.MeshStandardMaterial({
+        color: 0xFFFFFF,
+        map: texture,
         wireframe: false,
         color: 0xFAF7F7,
         transparent: false,
-        opacity: 1
+        opacity: 1,
+        side: THREE.DoubleSide
     });
-    cube = new THREE.Mesh(geometrycube, materialcube); //Creador del objeto, ingresa los nombres de las variables con la info (dimensiones,material)
+    
+    cube = new THREE.Mesh(geometrycube, materialCubeFaces); //Creador del objeto, ingresa los nombres de las variables con la info (dimensiones,material)
     scene.add(cube); //añadir lo creado
     cube.position.x += (Math.random() - 0.4) * size;
     cube.position.z += (Math.random() - 0.4) * size;
@@ -172,13 +179,13 @@ function CreateLight(typeLight) {
 
     switch (typeLight) {
         case "Ambient":
-            const AmbientLight = new THREE.AmbientLight(0x404040); // soft white light
+            const AmbientLight = new THREE.AmbientLight(0xffffff); // soft white light
             scene.add(AmbientLight);
             break;
 
         case "PointLight":
             // Create Point Light
-            const Pointlight = new THREE.PointLight(0xfffff, 10, 100);
+            const Pointlight = new THREE.PointLight(0xffffff, 10, 100);
             Pointlight.position.set(10, 10, 10);
             scene.add(Pointlight);
             break;
