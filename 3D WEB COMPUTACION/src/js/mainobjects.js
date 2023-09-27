@@ -19,7 +19,7 @@ const size = 20,
 function startScene() {
     // Scene, Camera, Renderer
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000); //33FFC5
+    scene.background = new THREE.Color(0x3E3E3E); //33FFC5
     camera = new THREE.PerspectiveCamera(
         75,                                        //Angulo de visión(Abajo o arriba) 
         window.innerWidth / window.innerHeight,    //Relación de aspecto 16:9
@@ -32,7 +32,7 @@ function startScene() {
 
     //Orbit controls
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-    camera.position.set(0, 0, 20);
+    camera.position.set(7, 7, 13);
     controls.update();
 
     //Grid Helper
@@ -66,6 +66,7 @@ function animate() {
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
+    //console.log(camera.position); IDENTIFICAR NE LA CONSOLA DE HTML QUE POSICIÓN ESTÁ
 }
 
 window.addEventListener('resize', onWindowResize, false);
@@ -213,7 +214,7 @@ loader.load(
 		gltf.scenes; // Array<THREE.Group>
 		gltf.cameras; // Array<THREE.Camera>
 		gltf.asset; // Object
-		gltf.scene.set.position(0,7,0);
+		gltf.scene.set.position(0,0,5);
 
 
 	},
