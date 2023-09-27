@@ -146,7 +146,7 @@ function createCone() {
     geometrycone = new THREE.ConeGeometry(5, 20, 32);
     materialcone = new THREE.MeshStandardMaterial({
         color: 0xF5F8FA,
-        wireframe: false,
+        wireframe: true,
         color: 0xFAF7F7,
         transparent: false,
         opacity: 1
@@ -161,9 +161,9 @@ function createCone() {
 function createTorus() {
     geometrytorus = new THREE.TorusGeometry(5.757, 1.2375, 22, 33, 6.283185307179586);
     materialtorus = new THREE.MeshStandardMaterial({
-        color: 0xF5F8FA,
-        wireframe: false,
-        color: 0xFAF7F7,
+        color: 0xffffff,
+        wireframe: true,
+        color: 0xffffff,
         transparent: false,
         opacity: 1
     });
