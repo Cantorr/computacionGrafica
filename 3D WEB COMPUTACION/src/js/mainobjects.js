@@ -8,10 +8,16 @@ Hola
 
 */
 
+
+
 var scene = null,
     camera = null,
     renderer = null,
     controls = null;
+    let temporizador = false;
+    let Timer = 5; 
+    tiempoRegresivo = null;
+
 
 const size = 20,
     divisions = 20;
@@ -45,6 +51,10 @@ function startScene() {
 
     //const lightAmbient = new THREE.AmbientLight(0xFFFFFF); // soft white light
     //scene.add(lightAmbient);
+    if(temporizador==false){
+        contadorTiempo();
+        temporizador=true;
+    }
 
     lights();
     // const light = new THREE.PointLight( 0xffffff, 1, 100 );
@@ -56,12 +66,16 @@ function startScene() {
     // Human Model
     loadModel_objMtl2("../models/Obj_mtl/personaje/", "voxelcaracter.obj", "voxelcaracter.mtl");
 
-    loadModel_pato("../models/gltf/",'DuckCM.png');
+    loadModel_pato("../models/gltf/", 'Duck.gltf');
 
     createCollectibles();
+    
+
+
+    stateGame('');
 
 }
-
+//--------------------FUNCIONES--------------------
 function animate() {
     requestAnimationFrame(animate);
     controls.update();
@@ -95,7 +109,7 @@ function loadModel_objMtl(path, nameObj, nameMtl) {
         objLoader.load(nameObj, function (object) {
             scene.add(object);
             object.scale.set(2, 2, 2);
-            object.position.z = (0, 0, 0);
+            object.position.set(0, 0, 0);
         });
     });
 
@@ -118,7 +132,7 @@ function loadModel_objMtl2(path, nameObj, nameMtl) {
         objLoader.load(nameObj, function (object) {
             scene.add(object);
             object.scale.set(2, 2, 2);
-            object.position.z = (0, 0, 0);
+            object.position.set(0, 2, 0);
         });
     });
 
@@ -189,48 +203,47 @@ function lights() {
 }
 
 
-function loadModel_pato(path,nameObj) {
+function loadModel_pato(path, nameObj) {
 
-        var nameGltf = path + nameObj;
+    var nameGltf = path + nameObj;
     // Instantiate a loader
-const loader = new THREE.GLTFLoader();
+    const loader = new THREE.GLTFLoader();
 
-// Optional: Provide a DRACOLoader instance to decode compressed mesh data
-const dracoLoader = new THREE.DRACOLoader();
-dracoLoader.setDecoderPath( path );
-loader.setDRACOLoader( dracoLoader );
+    // Optional: Provide a DRACOLoader instance to decode compressed mesh data
+    const dracoLoader = new THREE.DRACOLoader();
+    dracoLoader.setDecoderPath(path);
+    loader.setDRACOLoader(dracoLoader);
 
-// Load a glTF resource
-loader.load(
-	// resource URL
-	nameGltf,
-	// called when the resource is loaded
-	function ( gltf ) {
+    // Load a glTF resource
+    loader.load(
+        // resource URL
+        nameGltf,
+        // called when the resource is loaded
+        function (gltf) {
 
-		scene.add( gltf.scene );
+            scene.add(gltf.scene);
 
-		gltf.animations; // Array<THREE.AnimationClip>
-		gltf.scene; // THREE.Group
-		gltf.scenes; // Array<THREE.Group>
-		gltf.cameras; // Array<THREE.Camera>
-		gltf.asset; // Object
-		gltf.scene.set.position(0,0,5);
+            gltf.animations; // Array<THREE.AnimationClip>
+            gltf.scene; // THREE.Group
+            gltf.scenes; // Array<THREE.Group>
+            gltf.cameras; // Array<THREE.Camera>
+            gltf.asset; // Object
+            gltf.scene.position.set(0,0,5);
 
+        },
+        // called while loading is progressing
+        function (xhr) {
 
-	},
-	// called while loading is progressing
-	function ( xhr ) {
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function (error) {
 
-	},
-	// called when loading has errors
-	function ( error ) {
+            console.log('An error happened');
 
-		console.log( 'An error happened' );
-
-	}
-);
+        }
+    );
 }
 
 
@@ -238,13 +251,47 @@ loader.load(
 
 function createCollectibles() {
 
-        const texture = new THREE.TextureLoader().load('../image/objetosexternos/giftTexture.jpg');
+    const texture = new THREE.TextureLoader().load('../image/objetosexternos/giftTexture.jpg');
+
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        map: texture
+    });
+    const cube = new THREE.Mesh(geometry, material);
+
+    cube.position.set(0, 5, 0);
+    scene.add(cube);
+}
+
+
+function stateGame(status) {
+    switch (status) {
+        case win:
+            document.getElementById("winPage").style.display = "block";
+         break;
+        case "lose":
+         document.getElementById("losePage").style.display = "block";
+         break;
     
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, 
-                                                        map:texture});
-        const cube = new THREE.Mesh( geometry, material ); 
+         default:
+            document.getElementById("winPage").style.display = "none";
+            document.getElementById("losePage").style.display = "none";
+         break;
     
-        cube.position.set(0,5,0);
-        scene.add( cube );
-    }
+      }
+}
+
+
+function contadorTiempo() {
+    tiempoRegresivo = setInterval(() => {
+        Timer--;
+        mostrarTiempo = document.getElementById('tiempoContador');
+        mostrarTiempo.innerHTML =`Time : ${Timer}`;
+        if(Timer == 0){
+            clearInterval (tiempoRegresivo);
+            var status="lose";
+            return status;
+        }
+    }, 1000);
+}
