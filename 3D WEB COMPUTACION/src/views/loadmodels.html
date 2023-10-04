@@ -5,6 +5,7 @@
     <meta http-equiv="X-U-CompatibleA" content="Ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/mainc.css">
     <!--FAV ICON-->
     <link rel="shortcut icon" href="../src/image/image.png" type="image/png"> 
     <title>OBJECT </title>
@@ -30,6 +31,20 @@
         <script src="../libs/vendors/load/DRACOLoader.js"></script>
         <script src="../libs/vendors/load/GLTFLoader.js"></script>
         <script src="../js/mainobjects.js"></script>  
+        <script>
+        
+        function contadorTiempo() {
+          tiempoRegresivo = setInterval(() => {
+              Timer--;
+              mostrarTiempo = document.getElementById('tiempoContador');
+              mostrarTiempo.innerHTML =`Time : ${Timer}`;
+              if(Timer == 0){
+                  clearInterval (tiempoRegresivo);
+                  document.getElementById("losePage").style.display = "block";
+              }
+          }, 1000);
+      }</script>
+
 </head>
 
 <body
@@ -76,7 +91,7 @@
       </audio>
 
 
-
+      
 
 
 
